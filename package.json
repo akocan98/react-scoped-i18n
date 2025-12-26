@@ -1,0 +1,54 @@
+{
+  "name": "react-scoped-i18n",
+  "version": "0.0.1",
+  "description": "A scoped internationalization (i18n) library for React applications.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "react-native": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch --silent",
+    "test:coverage": "jest --coverage --silent",
+    "lint": "eslint ./src --fix",
+    "tsc": "tsc",
+    "prepare": "tsc"
+  },
+  "keywords": [
+    "react",
+    "i18n",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "jest": "^30.2.0",
+    "prettier": "3.5.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.46.4"
+  }
+}
