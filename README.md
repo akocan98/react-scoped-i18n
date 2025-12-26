@@ -21,7 +21,7 @@ It encourages writing translations right next to the components that use them.
 
 ### Key features:
 - Fully type-safe; missing translations or unsupported languages are compile-time errors
-- Utilize the built-in, widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date and time formatting
+- Utilize the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date and time formatting
 - Implementation is fully JS/TS; no new syntax is required for string interpolation or dynamic translations generated at runtime; you can simply write normal JS/TS code
 
 ### The focus is on _dev experience_ above all else:
@@ -50,7 +50,7 @@ export const WelcomeMessage = () => {
         <>
             <Heading>
                 {t({
-                    // text localization with string interpolation, all fully type-safe for all configured languages
+                    // all fully type-safe for all configured languages
                     en: `Welcome to the website, ${name}!`,
                     es: `¡Bienvenido al sitio web, ${name}!`,
                     sl: `Dobrodošli na spletno stran, ${name}!`,

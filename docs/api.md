@@ -17,7 +17,7 @@
    ###### Returns the translation based on <code>currentLanguage</code>
   </summary>
   
-  Signature: `t(translation: TranslationMap<Language>): ReactNode`
+  Signature: `t(translation: TranslationMap<Language>): ReactNode` (`Language` extends `string`)
   
   Usage:
   ```tsx
@@ -47,7 +47,7 @@ format: {
 }
 ```
 
-Formatting is implemented with the built-in, widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). For each formatting function, you can refer to the respective MDN documentation for available options.
+Formatting is implemented with the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). For each formatting function, you can refer to the respective MDN documentation for available options.
 
 Usage:
 
@@ -146,15 +146,17 @@ export const CurrentTime = () => {
   Signature: 
 ```ts
 tPlural(count: number, {
-  negative?: TranslationMap<Lang>;
-  zero?: TranslationMap<Lang>;
-  one?: TranslationMap<Lang>;
-  two?: TranslationMap<Lang>;
-  many?: TranslationMap<Lang>;
-  [key: number]: TranslationMap<Lang>;
+  negative?: TranslationMap<Language>;
+  zero?: TranslationMap<Language>;
+  one?: TranslationMap<Language>;
+  two?: TranslationMap<Language>;
+  many?: TranslationMap<Language>;
+  [key: number]: TranslationMap<Language>;
 }): ReactNode
 ```
-  
+
+(`Language` extends `string`)
+
   Usage:
   ```tsx
 const count = 12;
@@ -274,7 +276,7 @@ console.log(currentLanguage); // e.g., "en", "es", ...
    ###### Changes <code>currentLanguage</code>
   </summary>
   
-  Signature: `setCurrentLanguage: (language: Language) => void`
+  Signature: `setCurrentLanguage: (language: Language) => void` (`Language` extends `string`)
   
   Usage:
   ```tsx
@@ -298,7 +300,7 @@ const vivaEspaña = () => {
 
   ❓Optional
 
-  type: `commons: Record<string, TranslationMap<Language> | undefined`
+  type: `commons: Record<string, TranslationMap<Language> | undefined` (`Language` extends `string`)
 
   Usage:
 
@@ -341,4 +343,4 @@ export const ConfirmButton = () => {
 
 If you are unsure which format to use for language codes, check out [MDN: Intl - Locale identification and negotiation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
 
-TLDR; Use common tags such as `en`, `en-US`, `en-UK`, `es`, `es-ES`, `sl`, etc. The "best-effort" algorithm used by the Internationalization API will do its best to match the selected locale to one of your supported languages. This way, you ensure number & date formatting support without any additional setup.
+TLDR: Use common tags such as `en`, `en-US`, `en-UK`, `es`, `es-ES`, `sl`, etc. The "best-effort" algorithm used by the Internationalization API will do its best to match the selected locale to one of your supported languages. This way, you ensure number & date formatting support without any additional setup.
