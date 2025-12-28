@@ -1,60 +1,31 @@
 {
   "name": "react-scoped-i18n",
   "version": "0.0.1",
-  "description": "A scoped internationalization (i18n) library for React applications.",
-  "type": "module",
+  "description": "A scoped internationalization (i18n) library for React applications",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.js"
     }
   },
-  "react-native": "./dist/index.cjs",
-  "files": [
-    "dist"
-  ],
+  "react-native": "./dist/index.js",
+  "files": ["dist"],
   "scripts": {
-    "dev": "tsc --watch",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "prepare": "npm run build",
+    "tsc": "tsc",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
     "test": "jest --silent",
-    "test:watch": "jest --watch --silent",
-    "test:coverage": "jest --coverage --silent",
-    "lint": "eslint ./src --fix",
-    "tsc": "tsc"
+    "test:coverage": "jest --coverage --silent"
   },
-  "keywords": [
-    "react",
-    "i18n",
-    "typescript"
-  ],
-  "license": "MIT",
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
-  },
-  "devDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.2",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.5",
-    "@types/jest": "^30.0.0",
-    "eslint": "^8.56.0",
-    "@eslint/js": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "3.5.3",
-    "typescript-eslint": "^8.46.4"
   }
 }
