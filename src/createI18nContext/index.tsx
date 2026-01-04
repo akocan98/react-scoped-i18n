@@ -5,18 +5,16 @@ import { createUseI18n } from "./api/createUseI18n";
 import { createTGlobal } from "./api/createTGlobal";
 import { IS_DEV } from "../env";
 
-const createI18nContext = <
-  const Languages extends readonly string[],
-  const Commons extends Record<string, TranslationMap<Languages[number]>>,
+export default function createI18nContext<
+    const Languages extends readonly string[],
+    const Commons extends Record<string, TranslationMap<Languages[number]>>,
 >({
-  languages,
-  fallbackLanguage,
-  commons,
-}: {
+    languages,fallbackLanguage,commons
+                                           }: {
   languages: Readonly<Languages>;
   fallbackLanguage: Languages[number];
   commons?: Readonly<Commons>;
-}) => {
+}) {
   type Language = Languages[number];
 
   if (IS_DEV) {
@@ -65,5 +63,3 @@ const createI18nContext = <
 
   return { I18nProvider, useI18n, tGlobal };
 };
-
-export default createI18nContext;

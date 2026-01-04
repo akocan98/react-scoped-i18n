@@ -21,6 +21,7 @@
     "prepare": "npm run build",
     "tsc": "tsc",
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
     "test": "jest --silent",
     "test:coverage": "jest --coverage --silent"
   },
