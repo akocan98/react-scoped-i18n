@@ -10,6 +10,20 @@
     "type": "git",
     "url": "https://github.com/akocan98/react-scoped-i18n"
   },
+  "bugs": "https://github.com/akocan98/react-scoped-i18n/issues",
+  "keywords": [
+    "react",
+    "i18n",
+    "internationalization",
+    "localization",
+    "react-native",
+    "expo",
+    "typescript",
+    "number formatting",
+    "date formatting",
+    "currency formatting",
+    "translations"
+  ],
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
