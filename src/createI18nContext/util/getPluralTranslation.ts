@@ -4,13 +4,11 @@ import { IS_DEV } from "../../env";
 
 export const getPluralTranslation = <const Language extends string>({
   currentLanguage,
-  languages,
   fallbackLanguage,
   count,
   translations,
 }: {
   currentLanguage: Language;
-  languages: readonly Language[];
   fallbackLanguage: Language;
   count: number;
   translations: PluralTranslationMap<Language[][number]>;
@@ -23,7 +21,7 @@ export const getPluralTranslation = <const Language extends string>({
 
   const defaultTranslation = translations[fallbackLanguage];
 
-  if (!targetTranslation && !defaultTranslation) {
+  if (targetTranslation == undefined && defaultTranslation === undefined) {
     if (IS_DEV) {
       console.warn(
         `[i18n] Missing plural translation for language "${currentLanguage}" and for default language "${fallbackLanguage}"`,
@@ -33,7 +31,7 @@ export const getPluralTranslation = <const Language extends string>({
     return MISSING_TRANSLATION;
   }
 
-  if (!targetTranslation) {
+  if (targetTranslation === undefined) {
     if (IS_DEV) {
       console.warn(
         `[i18n] Missing plural translation for language "${currentLanguage}". Falling back to default language "${fallbackLanguage}"`,

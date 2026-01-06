@@ -1,3 +1,1 @@
-import { ReactNode } from "react";
-
-export const MISSING_TRANSLATION: ReactNode = `[MISSING TRANSLATION]`;
+export const MISSING_TRANSLATION = `[MISSING TRANSLATION]`;

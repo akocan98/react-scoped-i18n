@@ -62,7 +62,7 @@ describe(`getTranslation`, () => {
     ).toBe(MISSING_TRANSLATION);
   });
 
-  it("Error: Translation object is undefined or null", () => {
+  it(`Error: Translation object is undefined or null`, () => {
     expect(() => {
       getTranslation({
         // @ts-expect-error testing undefined translation
@@ -74,10 +74,10 @@ describe(`getTranslation`, () => {
     }).toThrow(`[i18n] Translation object is undefined or null`);
   });
 
-  it("Warn: Missing languages", () => {
+  it(`Warn: Missing languages`, () => {
     const incompleteLanguages = [`en`, `de`] as const;
 
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+    const consoleWarnSpy = jest.spyOn(console, `warn`).mockImplementation();
 
     getTranslation({
       // @ts-expect-error incomplete languages
@@ -92,8 +92,8 @@ describe(`getTranslation`, () => {
     );
   });
 
-  it("Warn: Missing translation for language, falling back to default", () => {
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  it(`Warn: Missing translation for language, falling back to default`, () => {
+    const consoleWarnSpy = jest.spyOn(console, `warn`).mockImplementation();
 
     getTranslation({
       // @ts-expect-error testing translation for language
@@ -108,8 +108,8 @@ describe(`getTranslation`, () => {
     );
   });
 
-  it("Warn: Missing translation for language and for default language", () => {
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  it(`Warn: Missing translation for language and for default language`, () => {
+    const consoleWarnSpy = jest.spyOn(console, `warn`).mockImplementation();
 
     getTranslation({
       // @ts-expect-error testing translation for language and default language

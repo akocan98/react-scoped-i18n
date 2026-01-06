@@ -2,8 +2,9 @@
 
 ### Top-Level Exports
 
-- `I18nProvider`: React context provider component that wraps your application and provides i18n functionality.
-- `useI18n`: Hook to access translation functions and current language within your components.
+- `I18nProvider`: React context provider component that wraps your application and provides i18n functionality
+- `useI18n`: Hook to access translation functions and current language within your components
+- `tGlobal`: Global translation function for use outside React components
 
 -----
 
@@ -17,15 +18,68 @@
    ###### Returns the translation based on <code>currentLanguage</code>
   </summary>
   
-  Signature: `t(translation: TranslationMap<Language>): ReactNode`
-  
-  Usage:
+  #### Signature: 
+```ts
+t<Translation extends string | number | ReactNode = ReactNode>(
+    translation: TranslationMap<Language, Translation>
+): Translation
+
+// `Language` extends `string`
+```
+
+The return type of `t()` is inferred from the values of the provided translations.
+
+
+#### Usage:
   ```tsx
   t({
-      en: "Hello",
-      fr: "Bonjour"
+    // the return type of t() is inferred as "string" here
+    en: "Hello",
+    fr: "Bonjour"
   });
 ```
+
+If your translations require different structures based on the language, we can consider this an issue of localization as well. For this reason, you can specify React nodes as translation values:
+
+```tsx
+t({
+    // the return type of t() is inferred as "ReactNode" here
+    en: <Bold>Hello, world!</Bold>,
+    es: <Italic>Hola, mundo!</Italic>
+}); 
+```
+
+----
+
+You can explicitly assert the return type of `t()` by providing a generic type parameter (`string | number | ReactNode`). 
+
+This is useful when translations are passed through non-React APIs.
+
+```tsx
+t<string>({ 
+    en: "Hello, world!",
+    es: "Hola, mundo!",
+});
+```
+
+```tsx
+t<number>({
+   en: 1_234,
+   es: 4_321
+});
+```
+
+This is also useful if you intend to mix different types of translation values:
+
+```tsx
+t<ReactNode>({
+    en: <Bold>Hello, world!</Bold>,
+    es: "Hola, mundo!",
+})
+```
+
+By doing this, you are asserting the return type of `t()`, meaning you will get a Typescript error if the translation values do not conform to the specified type.
+
 </details>
 
 ---
@@ -37,7 +91,7 @@
 ###### General purpose formatter for **numbers**, currencies, dates, and times
   </summary>
 
-Signature:
+#### Signature:
 ```ts
 format: {
    number: (value: number, options?: Intl.NumberFormatOptions) => string;
@@ -47,9 +101,9 @@ format: {
 }
 ```
 
-Formatting is implemented with the built-in, widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). For each formatting function, you can refer to the respective MDN documentation for available options.
+Formatting is implemented with the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). For each formatting function, you can refer to the respective MDN documentation for available options.
 
-Usage:
+#### Usage:
 
 1. Number Formatting Example:
 ```tsx
@@ -74,13 +128,13 @@ export const PersonCount = () => {
 import { useI18n } from "src/i18n";
 import { Text } from "@/components";
 
-export const CurrentDate = () => {
+export const RightNow = () => {
     const { format } = useI18n();
 
-    const today = new Date();
+    const now = new Date();
 
     return <Text>
-       {format.date(today, {
+       {format.date(now, {
           year: "numeric",
           month: "long",
           day: "numeric",
@@ -142,58 +196,48 @@ export const CurrentTime = () => {
   
    ###### Returns the pluralized translation based on <code>currentLanguage</code> and the <code>count</code> parameter
   </summary>
-  
-  Signature: 
+
+#### Signature:
 ```ts
-tPlural(count: number, {
-  negative?: TranslationMap<Lang>;
-  zero?: TranslationMap<Lang>;
-  one?: TranslationMap<Lang>;
-  two?: TranslationMap<Lang>;
-  many?: TranslationMap<Lang>;
-  [key: number]: TranslationMap<Lang>;
-}): ReactNode
+tPlural(count: number, translations: Record<Language, {
+  negative?: ReactNode;
+  zero?: ReactNode;
+  one?: ReactNode;
+  two?: ReactNode;
+  many?: ReactNode;
+  [key: number]: ReactNode;
+}) => ReactNode
+
+// `Language` extends `string`
 ```
-  
-  Usage:
+
+#### Usage:
   ```tsx
 const count = 12;
 
 tPlural(count, {
-    negative: {
-        en: "You are in apple debt!",
-        es: "¡Estás en deuda de manzanas!",
-        sl: "Imaš jabolčni dolg!",
-    },
-    zero: {
-        en: "Unfortunately, you have no apples.",
-        es: "Desafortunadamente, no tienes manzanas.",
-        sl: "Na žalost nimaš nobenega jabolka.",
-    },
-    one: {
-        en: `You have one apple.`,
-        es: `Tienes una manzana.`,
-        sl: "Imate eno jabolko.",
-    },
-    two: {
-        en: `You have two apples.`,
-        es: `Tienes dos manzanas.`,
-       sl: "Imata dve jabolki.",
-    },
-    many: {
-        en: `You have ${count} apples.`,
-        es: `Tienes ${count} manzanas.`,
-       sl: `Imate ${count} jabolk.`,
-    },
-    42: {
-        en: `You have the perfect amount of apples!`,
-        es: `¡Tienes la cantidad perfecta de manzanas!`,
-       sl: "Imate popolno število jabolk!",
-    },
+   en: {
+      negative: `You are in apple debt...`,
+      one: `You have one apple.`,
+      many: `You have ${count} apples.`,
+      42: `You have the perfect number of apples!`,
+   },
+   sl: {
+      negative: `Imaš jabolčni dolg...`,
+      one: `Imaš eno jabolko.`,
+      two: `Imaš dve jabolki.`,
+      many: `Imaš ${count} jabolk.`,
+      42: `Imaš popolno število jabolk!`,
+   },
+   es: {
+      one: `Tienes una manzana.`,
+      many: `Tienes ${count} manzanas.`,
+      42: `¡Tienes la cantidad perfecta de manzanas!`,
+   },
 })
   ```
 
-and now you can get _funky 💃_ with it, because it's just plain javascript.. 
+and now you can get funky with it, because it's just plain javascript.. 
 
 For example, you can generate a range of numbers for specific translations:
 
@@ -254,10 +298,15 @@ For example, you can generate a range of numbers for specific translations:
   
    ###### Property representing the current language
   </summary>
-  
-  Type: `currentLanguage: Language` (`Language` extends `string`) 
-  
-  Usage:
+
+#### Type: 
+```ts
+currentLanguage: Language
+
+// (`Language` extends `string`) 
+```
+
+#### Usage:
   ```tsx
 const { currentLanguage } = useI18n();
 
@@ -271,12 +320,17 @@ console.log(currentLanguage); // e.g., "en", "es", ...
   <summary>
    <code>setCurrentLanguage()</code>
   
-   ###### Changes <code>currentLanguage</code>
+   ###### Sets a new value for <code>currentLanguage</code>
   </summary>
   
-  Signature: `setCurrentLanguage: (language: Language) => void`
+  #### Signature: 
+```ts
+setCurrentLanguage: (language: Language) => void
+
+// (`Language` extends `string`)
+```
   
-  Usage:
+  #### Usage:
   ```tsx
 const { setCurrentLanguage } = useI18n();
 
@@ -293,18 +347,23 @@ const vivaEspaña = () => {
   <summary>
    <code>commons</code>
   
-   ###### Constant object containing common translations
+   ###### Object containing common translations
   </summary>
 
-  ❓Optional
+##### ❓Optional
 
-  type: `commons: Record<string, TranslationMap<Language> | undefined`
+#### Type:
+```ts
+commons: Record<string, TranslationMap<Language> | undefined
 
-  Usage:
+// (`Language` extends `string`)
+```
 
-#### Must first be initialised:
+#### Usage:
+
+###### Must first be initialised:
   ```tsx
-import createI18nContext from "react-scoped-i18n";
+import { createI18nContext } from "react-scoped-i18n";
 
 export const { I18nProvider, useI18n } = createI18nContext({
     languages: [`en`, `es`],
@@ -322,7 +381,7 @@ export const { I18nProvider, useI18n } = createI18nContext({
 });
   ```
 
-#### Then can be used like this:
+###### Then can be used like this:
   ```tsx
 import { useI18n } from "src/i18n";
 import { Button } from "@/components";
@@ -335,10 +394,57 @@ export const ConfirmButton = () => {
 ```
 </details>
 
----
+-----
 
 ### Note about language codes
 
 If you are unsure which format to use for language codes, check out [MDN: Intl - Locale identification and negotiation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
 
-TLDR; Use common tags such as `en`, `en-US`, `en-UK`, `es`, `es-ES`, `sl`, etc. The "best-effort" algorithm used by the Internationalization API will do its best to match the selected locale to one of your supported languages. This way, you ensure number & date formatting support without any additional setup.
+TLDR: Use common tags such as `en`, `en-US`, `en-UK`, `es`, `es-ES`, `sl`, etc. The "best-effort" algorithm used by the Internationalization API will do its best to match the selected locale to one of your supported languages. This way, you ensure number & date formatting support without any additional setup.
+
+-----
+
+
+### Using translations outside of React Components
+
+The `tGlobal()` function has the same signature as the `t()` function returned by the `useI18n()` hook, but it can be used outside of React components.
+
+It is **only intended** for uses **outside of React components**. It's use should be limited to error messages, or other non-UI contexts where translations are needed.
+
+<details>
+  <summary>
+Example usage:
+  </summary>
+
+
+###### You must first export it from your i18n setup file:
+```ts
+// 📁 src/i18n.ts
+
+import { createI18nContext } from "react-scoped-i18n";
+
+export const { 
+   I18nProvider, 
+   useI18n, 
+   tGlobal // 👈 must be exported explicitly 
+} = createI18nContext({
+    languages: [`en`, `es`, `sl`],
+    fallbackLanguage: `en`,
+});
+
+```
+
+###### Then it can be used:
+
+```ts
+import { tGlobal } from "src/i18n";
+
+console.log(
+    tGlobal({ // usage is identical to the `t()` function
+        en: "Something happened",
+        es: "Algo pasó",
+        sl: "Nekaj se je zgodilo",
+    })
+);
+```
+</details>

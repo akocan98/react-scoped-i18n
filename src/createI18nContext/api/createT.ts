@@ -1,5 +1,6 @@
-import { TranslationMap } from "../type";
+import { TranslationMap, TranslationValue } from "../type";
 import { getTranslation } from "../util/getTranslation";
+import { ReactNode } from "react";
 
 export const createT = <const Languages extends readonly string[]>({
   currentLanguage,
@@ -12,15 +13,14 @@ export const createT = <const Languages extends readonly string[]>({
 }) => {
   type Language = Languages[number];
 
-  /**
-   * Function to get the translation for the current language.
-   */
-  return (translation: TranslationMap<Language>) => {
+  return <Value extends TranslationValue = ReactNode>(
+    translation: TranslationMap<Language, Value>,
+  ): Value => {
     return getTranslation({
       translation,
       language: currentLanguage,
-      fallbackLanguage: fallbackLanguage,
       languages,
+      fallbackLanguage,
     });
   };
 };

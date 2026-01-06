@@ -1,10 +1,11 @@
 import { createUseI18n } from "./createUseI18n";
 import { Context } from "react";
+import { I18nContextType } from "../type";
 
-describe("createUseI18n", () => {
-  const mockedI18nContext = {} as Context<any>;
+describe(`createUseI18n`, () => {
+  const mockedI18nContext = {} as Context<I18nContextType<`en` | `es`> | null>;
 
-  it("prints console.error if used outside of a provider", () => {
+  it(`prints console.error if used outside of a provider`, () => {
     const useI18n = createUseI18n({
       languages: [`en`, `es`],
       fallbackLanguage: `en`,
@@ -14,19 +15,19 @@ describe("createUseI18n", () => {
 
     // expect console.error to be called
     const consoleErrorSpy = jest
-      .spyOn(console, "error")
+      .spyOn(console, `error`)
       .mockImplementation(() => {});
 
     try {
       useI18n();
     } catch (e) {
-      expect(consoleErrorSpy).toHaveBeenCalled();
+      expect(consoleErrorSpy).toHaveBeenCalled(); // eslint-disable-line unused-imports/no-unused-vars
     }
 
     consoleErrorSpy.mockRestore();
   });
 
-  it("can be initialised with only required parameters", () => {
+  it(`can be initialised with only required parameters`, () => {
     expect(() =>
       createUseI18n({
         languages: [`en`, `es`],
@@ -37,7 +38,7 @@ describe("createUseI18n", () => {
     ).toBeDefined();
   });
 
-  it("should be initialised with all parameters", () => {
+  it(`should be initialised with all parameters`, () => {
     expect(() =>
       createUseI18n({
         languages: [`en`, `es`],

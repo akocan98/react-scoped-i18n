@@ -1,19 +1,21 @@
-import { ReactNode } from "react";
-import { TranslationMap } from "../type";
+import { TranslationMap, TranslationValue } from "../type";
 import { MISSING_TRANSLATION } from "../const";
 import { IS_DEV } from "../../env";
 
-export const getTranslation = <const Language extends string>({
+export const getTranslation = <
+  const Language extends string,
+  Value = TranslationValue,
+>({
   translation,
   language,
   languages,
   fallbackLanguage,
 }: {
-  translation: TranslationMap<Language>;
+  translation: TranslationMap<Language, Value>;
   language: Language;
   languages: readonly Language[];
   fallbackLanguage: Language;
-}): ReactNode => {
+}): Value => {
   if (!translation) {
     throw new Error(`[i18n] Translation object is undefined or null`);
   }
@@ -30,13 +32,13 @@ export const getTranslation = <const Language extends string>({
 
   const targetTranslation = translation[language];
 
-  if (targetTranslation) {
+  if (targetTranslation !== undefined) {
     return targetTranslation;
   }
 
   const fallbackTranslation = translation[fallbackLanguage];
 
-  if (fallbackTranslation) {
+  if (fallbackTranslation !== undefined) {
     if (IS_DEV) {
       console.warn(
         `[i18n] Missing translation for language "${language}". Falling back to default language "${fallbackLanguage}"`,
@@ -52,5 +54,5 @@ export const getTranslation = <const Language extends string>({
     );
   }
 
-  return MISSING_TRANSLATION;
+  return MISSING_TRANSLATION as Value;
 };

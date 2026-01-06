@@ -4,6 +4,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import js from "@eslint/js";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -24,11 +25,6 @@ export default [
     "plugin:prettier/recommended",
   ),
   {
-    env: {
-      browser: true,
-      es2021: true,
-      node: true,
-    },
     settings: {
       react: {
         version: "detect",
@@ -37,6 +33,7 @@ export default [
 
     plugins: {
       "@typescript-eslint": typescriptEslint,
+      "unused-imports": unusedImports,
     },
 
     languageOptions: {
@@ -61,6 +58,18 @@ export default [
       "@typescript-eslint/no-unsafe-argument": 0,
       "@typescript-eslint/no-unsafe-assignment": 0,
       "react-hooks/exhaustive-deps": "error",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
     },
 
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],

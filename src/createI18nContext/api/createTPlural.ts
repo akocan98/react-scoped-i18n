@@ -3,11 +3,9 @@ import { getPluralTranslation } from "../util/getPluralTranslation";
 
 export const createTPlural = <const Languages extends readonly string[]>({
   currentLanguage,
-  languages,
   fallbackLanguage,
 }: {
   currentLanguage: Languages[number];
-  languages: Readonly<Languages>;
   fallbackLanguage: Languages[number];
 }) => {
   /**
@@ -20,7 +18,6 @@ export const createTPlural = <const Languages extends readonly string[]>({
   ) => {
     return getPluralTranslation({
       currentLanguage,
-      languages,
       fallbackLanguage: fallbackLanguage,
       count,
       translations,

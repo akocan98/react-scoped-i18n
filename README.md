@@ -20,22 +20,25 @@ It encourages writing translations right next to the components that use them.
 ## Why `react-scoped-i18n 🌐`?
 
 ### Key features:
-- Fully type-safe; missing translations or unsupported languages are compile-time errors
-- Utilize the built-in, widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date and time formatting
-- Implementation is fully JS/TS; no new syntax is required for string interpolation or dynamic translations generated at runtime; you can simply write normal JS/TS code
+- Very minimal setup with out-of-the-box number & date formatting
+- Fully type-safe:
+- - missing translations or unsupported languages are compile-time errors
+- - return types of `t()` are inferred from translation values
+- Utilize the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date and time formatting
+- Usage is entirely in the runtime; no build-time transforms, no new syntax is required for string interpolation or dynamic translations generated at runtime, everything is plain JS/TS
 
-### The focus is on _dev experience_ above all else:
+### The focus is on dev experience:
 - Translations are colocated with the components that use them; looking up translations in the codebase always immediately leads to the relevant component code
 - No context switching between component code and translation files when developing UI
 - No tedious naming of translation keys, as they usually provide little value
 - Ditch restrictive translation file formats (JSON, YAML); use the full power of JS/TS
-- Runs within React's context system. No additional build steps, changes can be hot-reloaded, language switches reflected immediately 
+- Runs within React's context system. No additional build steps, changes can be hot-reloaded, language switches reflected immediately
 
 ---
 
 ## What does it look like?
 
-#### Very Basic Example:
+##### Very Basic Example:
 
 ```tsx
 import { useI18n } from "@/i18n";
@@ -45,24 +48,30 @@ export const WelcomeMessage = () => {
     const { t, commons } = useI18n();
 
     const name = `John`;
-    
+
     return (
         <>
             <Heading>
                 {t({
-                    // text localization with string interpolation, all fully type-safe for all configured languages
+                    // all fully type-safe for all configured languages
                     en: `Welcome to the website, ${name}!`,
                     es: `¡Bienvenido al sitio web, ${name}!`,
                     sl: `Dobrodošli na spletno stran, ${name}!`,
                 })}
             </Heading>
-            <Button>{t(commons.continue)}</Button>
+            <Button>{
+                // "commons" object is used for commonly used, shared translations
+                t(commons.continue)
+            }</Button>
         </>
     );
 };
 ```
 
-##### Number Formatting Basic Example:
+<details>
+  <summary>
+Number Formatting Basic Example:
+  </summary>
 
 ```tsx
 import { useI18n } from "@/i18n";
@@ -72,9 +81,9 @@ export const PriceTag = () => {
     const { t, format } = useI18n();
 
     const price = 19.99;
-    
+
     const currency = `USD`;
-    
+
     return (
         <Text>
             {t({
@@ -86,8 +95,13 @@ export const PriceTag = () => {
     );
 };
 ```
+</details>
 
-#### Pluralization Basic Example:
+
+<details>
+  <summary>
+Pluralization Basic Example:
+  </summary>
 
 ```tsx
 import { useI18n } from "@/i18n";
@@ -95,9 +109,9 @@ import { Text } from "@/components";
 
 export const Apples = () => {
     const { tPlural } = useI18n();
-    
+
     const count = 12;
-    
+
     return (
         <Text>
             {tPlural(count, {
@@ -121,13 +135,13 @@ export const Apples = () => {
     )
 };
 ```
+</details>
 
-#### TLDR:
+----
 
 `react-scoped-i18n 🌐` shines most when devs are the ones adding translations into the app, and when the number of supported languages is small-to-medium sized.
 
-
-> You can find more in-depth examples in the [Installation & Usage](/docs/usage.md) and the API definitions in [API](/docs/api.md)
+You can find more in-depth examples in the [Installation & Usage](/docs/usage.md) and the API definitions in [API](/docs/api.md)
 
 ---
 

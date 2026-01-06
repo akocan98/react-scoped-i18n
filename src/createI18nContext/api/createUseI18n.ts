@@ -3,10 +3,14 @@ import { Context, useContext, useMemo } from "react";
 import { createT } from "./createT";
 import { createTPlural } from "./createTPlural";
 import { createFormat } from "./createFormat";
+import { createCommons } from "./createCommons";
 
 export const createUseI18n = <
   const Languages extends readonly string[],
-  const Commons extends Record<string, TranslationMap<Languages[number]>>,
+  const Commons extends Record<
+    string,
+    TranslationMap<Languages[number], string>
+  >,
 >({
   I18nContext,
   languages,
@@ -43,7 +47,6 @@ export const createUseI18n = <
     const tPlural = useMemo(() => {
       return createTPlural({
         currentLanguage,
-        languages,
         fallbackLanguage: fallbackLanguage,
       });
     }, [currentLanguage]);
@@ -52,13 +55,21 @@ export const createUseI18n = <
       return createFormat({ currentLanguage });
     }, [currentLanguage]);
 
+    const _commons = useMemo(() => {
+      return createCommons({
+        commons: commons || ({} as Commons),
+        currentLanguage,
+        fallbackLanguage,
+      });
+    }, [currentLanguage]);
+
     return {
       t,
       tPlural,
       setCurrentLanguage,
       currentLanguage,
       format,
-      commons: commons ?? ({} as Commons),
+      commons: _commons,
     };
   };
 };

@@ -8,9 +8,13 @@ export const createFormat = <const Languages extends readonly string[]>({
   const defaultDateFormatter = new Intl.DateTimeFormat(currentLanguage);
 
   const defaultTimeFormatter = new Intl.DateTimeFormat(currentLanguage, {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+    hour: `numeric`,
+    minute: `numeric`,
+    second: `numeric`,
+  });
+
+  const defaultPercentageFormatter = new Intl.NumberFormat(currentLanguage, {
+    style: `percent`,
   });
 
   return {
@@ -24,7 +28,7 @@ export const createFormat = <const Languages extends readonly string[]>({
 
     date: (value: Date | number, options?: Intl.DateTimeFormatOptions) => {
       if (options) {
-        new Intl.DateTimeFormat(currentLanguage, options).format(value);
+        return new Intl.DateTimeFormat(currentLanguage, options).format(value);
       }
 
       return defaultDateFormatter.format(value);
@@ -34,9 +38,6 @@ export const createFormat = <const Languages extends readonly string[]>({
       if (options) {
         return new Intl.DateTimeFormat(currentLanguage, {
           ...options,
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
         }).format(value);
       }
 
@@ -45,14 +46,28 @@ export const createFormat = <const Languages extends readonly string[]>({
 
     currency: (
       value: number,
-      currency: Intl.NumberFormatOptions["currency"],
-      options?: Intl.NumberFormatOptions,
+      currency: string,
+      options?: Omit<Intl.NumberFormatOptions, `style` | `currency`>,
     ) => {
       return new Intl.NumberFormat(currentLanguage, {
-        style: "currency",
+        style: `currency`,
         currency,
         ...options,
       }).format(value);
+    },
+
+    percentage: (
+      value: number,
+      options?: Omit<Intl.NumberFormatOptions, `style`>,
+    ) => {
+      if (options) {
+        return new Intl.NumberFormat(currentLanguage, {
+          style: `percent`,
+          ...options,
+        }).format(value);
+      }
+
+      return defaultPercentageFormatter.format(value);
     },
   };
 };

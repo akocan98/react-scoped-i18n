@@ -1,34 +1,37 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
-export type TranslationMap<Lang extends string> = Record<Lang, ReactNode>;
+export type TranslationValue = ReactNode | string | number;
+
+export type TranslationMap<
+  Language extends string,
+  Value = TranslationValue,
+> = Record<Language, Value>;
 
 export type Languages = readonly string[];
 
-export type Language = Languages[number];
-
 export const isLanguage = (
-  lang: string,
+  language: string,
   languages: Languages,
-): lang is Language => {
-  return languages.includes(lang as Language);
+): language is Languages[number] => {
+  return languages.includes(language as Languages[number]);
 };
 
-export type I18nContextType<Lang extends string> = {
-  currentLanguage: Lang;
-  fallbackLanguage: Lang;
-  setCurrentLanguage: Dispatch<SetStateAction<Lang>>;
+export type I18nContextType<Language extends string> = {
+  currentLanguage: Language;
+  fallbackLanguage: Language;
+  setCurrentLanguage: Dispatch<SetStateAction<Language>>;
 };
 
-export type PluralTranslation<Lang extends string> = {
+export type PluralTranslation = {
   negative?: ReactNode;
   zero?: ReactNode;
   one?: ReactNode;
   two?: ReactNode;
-  many?: ReactNode;
+  many: ReactNode;
   [key: number]: ReactNode;
 };
 
-export type PluralTranslationMap<Lang extends string> = Record<
-  Lang,
-  PluralTranslation<Lang>
+export type PluralTranslationMap<Language extends string> = Record<
+  Language,
+  PluralTranslation
 >;

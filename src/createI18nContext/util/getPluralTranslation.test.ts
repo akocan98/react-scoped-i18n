@@ -2,8 +2,6 @@ import { getPluralTranslation } from "./getPluralTranslation";
 import { MISSING_TRANSLATION } from "../const";
 
 describe(`getPluralTranslation`, () => {
-  const languages = [`en`, `es`] as const;
-
   const fallbackLanguage = `en`;
 
   const translations = {
@@ -24,11 +22,10 @@ describe(`getPluralTranslation`, () => {
     },
   };
 
-  it("Error: Translations object is undefined or null", () => {
+  it(`Error: Translations object is undefined or null`, () => {
     expect(() =>
       getPluralTranslation({
         currentLanguage: `es`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: -5,
         // @ts-expect-error testing undefined translations
@@ -41,7 +38,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `es`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: -5,
         translations,
@@ -53,7 +49,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `en`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 0,
         translations,
@@ -65,7 +60,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `es`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 1,
         translations,
@@ -77,7 +71,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `en`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 2,
         translations,
@@ -89,7 +82,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `es`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 10,
         translations,
@@ -101,7 +93,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `en`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 42,
         translations,
@@ -119,7 +110,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `es`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 1,
         // @ts-expect-error incomplete translation for testing
@@ -138,7 +128,6 @@ describe(`getPluralTranslation`, () => {
     expect(
       getPluralTranslation({
         currentLanguage: `en`,
-        languages,
         fallbackLanguage: fallbackLanguage,
         count: 1,
         // @ts-expect-error incomplete translation for testing
@@ -147,8 +136,8 @@ describe(`getPluralTranslation`, () => {
     ).toBe(MISSING_TRANSLATION);
   });
 
-  it("Warn: No pluralization match found for count", () => {
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  it(`Warn: No pluralization match found for count`, () => {
+    const consoleWarnSpy = jest.spyOn(console, `warn`).mockImplementation();
 
     const incompleteTranslations = {
       en: {
@@ -158,7 +147,6 @@ describe(`getPluralTranslation`, () => {
 
     getPluralTranslation({
       currentLanguage: `en`,
-      languages,
       fallbackLanguage: fallbackLanguage,
       count: 5,
       // @ts-expect-error incomplete translation for testing

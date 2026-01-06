@@ -1,13 +1,18 @@
 # Installation & Usage
 
+#### Requires React version 18+.
+
 ###### You can use this with both React and React Native (+ Expo) projects. 🚀
 
+----
 
 To get started, you must first install the package:
 
 ```bash
 npm install react-scoped-i18n
+
 # or
+
 yarn add react-scoped-i18n
 ```
 
@@ -19,7 +24,7 @@ This is where all the type inference happens:
 ```ts
 // src/i18n.ts
 
-import createI18nContext from "react-scoped-i18n";
+import { createI18nContext } from "react-scoped-i18n";
 
 export const { I18nProvider, useI18n } = createI18nContext({
     languages: [`en`, `es`, `sl`],
@@ -42,19 +47,32 @@ Having defined your config this way, the exported `useI18n` hook will now be **f
 ## Step 2:
 ### Wrap your app with the provider
 
+#### React example:
 ```tsx
 // 📄 your root component / entry point
-
+import App from './App.tsx'
 import { I18nProvider } from "./i18n-config";
-import { Home } from "./home";
+
+createRoot(document.getElementById('root')).render(
+  <I18nProvider initialLanguage={"en"}>
+    <App />
+  </I18nProvider>
+)
+```
+
+#### React Native with Expo example:
+```tsx
+// 📄 your root component / entry point
+import { Home } from "@/components/home";
+import { I18nProvider } from "./i18n-config";
 
 export const Index = () => {
-    return (
-        <I18nProvider initialLanguage={`en`}>
-            <Home />
-        </I18nProvider>
-    );
-}
+  return (
+    <I18nProvider initialLanguage={"en"}>
+      <Home />
+    </I18nProvider>
+  );
+};
 ```
 
 ## Step 3:
@@ -81,7 +99,7 @@ export const Greeting = () => {
 
 And that's it! 🚀
 
-Note: You can also define the translations object outside the JSX (or outside the component entirely) if you prefer, but then you run into limitations with string interpolation as well as having to name your translation objects. Generally, unless required, this would be considered an **anti-pattern**.
+Note: You can also define the translations object outside the JSX (or outside the component entirely) if you prefer, but then you run into limitations with string interpolation as well as having to name your translation objects. Generally, unless required, this is discouraged as it reduces type inference.
 
 ----
 
@@ -148,17 +166,12 @@ export const Language = () => {
 
 ### Number, Date, Time and Currency Formatting
 
-- ###### For a full overview of the number formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
-
-- ###### For a full overview of the date formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
-
-- ###### For a full overview of the currency formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
-
-- ###### For a full overview of the time formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
 
 You can format numbers, dates, times and currencies according to the current language/locale:
 
 #### Number Formatting Example:
+
+Basic number example:
 
 ```tsx
 import { useI18n } from "src/i18n";
@@ -175,13 +188,43 @@ export const Apples = () => {
                 en: `We have ${format.number(count)} apples!`,
                 es: `¡Tenemos ${format.number(count)} apples!`,
                 sl: `Imamo ${format.number(count, {
-                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 2,
                 })} jabolk!`,
             })}
         </Title>
     );
 };
 ```
+
+Percentage example:
+
+```tsx
+import { useI18n } from "src/i18n";
+import { Title } from "@/components";
+
+export const Progress = () => {
+  const { t, format } = useI18n();
+
+  const progress = 0.42;
+
+  return (
+        <Title>
+          {t({
+            en: `Progress: ${format.percentage(progress)}`,
+            es: `Progreso: ${format.percentage(progress, {
+                maximumFractionDigits: 2,
+            })}`,
+          })}
+        </Title>
+  );
+};
+```
+
+As per the Intl specification, percentage values are expected to be in the range `0..1`, where `1` represents `100%`.
+
+###### For a full overview of the number & percentage formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
+
+----
 
 #### Date Formatting Example:
 
@@ -210,6 +253,10 @@ export const Today = () => {
 };
 ```
 
+###### For a full overview of the date formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+
+----
+
 #### Currency Formatting Example:
 
 ```tsx
@@ -236,6 +283,9 @@ export const PriceTag = () => {
 };
 ```
 
+###### For a full overview of the currency formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
+
+-----
 
 #### Time Formatting Example:
 
@@ -263,6 +313,8 @@ export const CurrentTime = () => {
 };
 ```
 
+###### For a full overview of the time formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+
 ---
 
 ### Common translations
@@ -274,7 +326,7 @@ You can define some common translations, usually utility strings that are reused
 ```ts
 // src/i18n.ts
 
-import createI18nContext from "react-scoped-i18n";
+import { createI18nContext } from "react-scoped-i18n";
 
 export const { I18nProvider, useI18n } = createI18nContext({
     languages: [`en`, `es`],
@@ -349,6 +401,12 @@ export const Apples = () => {
 };
 ```
 
+`tPlural()` does not restrict plural rules to only predefined categories. This lets you:
+- define language-specific plural forms
+- target exact numbers
+- handle edge cases (negative numbers, special values)
+- generate plural rules dynamically using JavaScript
+
 ---
 
 ### "tGlobal" helper for translations outside React components
@@ -362,7 +420,7 @@ You must:
 ```ts
 // src/i18n.ts
 
-import createI18nContext from "react-scoped-i18n";
+import { createI18nContext } from "react-scoped-i18n";
 
 export const { I18nProvider, useI18n, tGlobal } = createI18nContext({
     languages: [`en`, `es`, `sl`],
@@ -373,19 +431,25 @@ export const { I18nProvider, useI18n, tGlobal } = createI18nContext({
 2) and then you can use it:
 
 ```ts
-// src/example-logger.ts
+// src/example.ts
 
 import { tGlobal } from "react-scoped-i18n";
-import { log } from "some-logging-library";
+import { notify } from "some-notifications-library";
 
-const logger = (messageKey: string) => {
-    log(tGlobal({
-        en: `Log message: ${messageKey}`,
-        es: `Mensaje de registro: ${messageKey}`,
-        sl: `Sporočilo: ${messageKey}`,
-    }));
+const showNotification = (messageKey: string) => {
+    notify(
+        tGlobal({
+          en: `Log message: ${messageKey}`,
+          es: `Mensaje de registro: ${messageKey}`,
+          sl: `Sporočilo: ${messageKey}`,
+        })
+    );
 };
 ```
+
+##### ⚠️ tGlobal() does not trigger React re-renders.
+
+It should only be used in non-UI contexts (errors, services, notifications, logging...).
 
 ---
 
