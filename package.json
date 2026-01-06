@@ -45,8 +45,8 @@
     "tsc": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": ">=19",
-    "react-dom": ">=19"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.1",
