@@ -40,8 +40,8 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "prettier": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
-    "test": "jest --silent",
-    "test:coverage": "jest --coverage --silent",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "tsc": "tsc --noEmit"
   },
   "peerDependencies": {
