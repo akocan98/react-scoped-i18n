@@ -166,8 +166,9 @@ export const Language = () => {
 
 ### Number, Date, Time and Currency Formatting
 
+You can format numbers, dates, times and currencies according to the current language/locale.
 
-You can format numbers, dates, times and currencies according to the current language/locale:
+If you conform to standard language codes ([see here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation)), the locale's format should work out-of-the-box, without any additional setup!
 
 #### Number Formatting Example:
 
