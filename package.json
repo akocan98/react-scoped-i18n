@@ -5,6 +5,25 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akocan98/react-scoped-i18n"
+  },
+  "bugs": "https://github.com/akocan98/react-scoped-i18n/issues",
+  "keywords": [
+    "react",
+    "i18n",
+    "internationalization",
+    "localization",
+    "react-native",
+    "expo",
+    "typescript",
+    "number formatting",
+    "date formatting",
+    "currency formatting",
+    "translations"
+  ],
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
@@ -15,20 +34,23 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "prepare": "husky",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "prettier": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
-    "test": "jest --silent",
-    "test:coverage": "jest --coverage --silent",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "tsc": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": ">=19",
-    "react-dom": ">=19"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.1",
