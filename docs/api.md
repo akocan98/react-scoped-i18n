@@ -105,48 +105,54 @@ Formatting is implemented with the widely supported [Internationalization API (I
 
 #### Usage:
 
-1. Number Formatting Example:
+1. Number Formatting Example (with optional options):
 ```tsx
 import { useI18n } from "src/i18n";
 import { Text } from "@/components";
 
-export const PersonCount = () => {
+export const HeadCount = () => {
     const { format } = useI18n();
 
-    const personCount = 1234.56;
+    const personCount = 1234.567;
 
     return <Text>
-       {format.number(personCount)}
+       {format.number(personCount, formatOptions)}
     </Text>
 }
+
+const formatOptions = {
+    maximumFractionDigits: 2,
+};
 ```
 
 ###### For a full overview of the number formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
 
-2. Date Formatting Example:
+2. Date Formatting Example (with optional options):
 ```tsx
 import { useI18n } from "src/i18n";
 import { Text } from "@/components";
 
-export const RightNow = () => {
+export const Now = () => {
     const { format } = useI18n();
 
     const now = new Date();
 
     return <Text>
-       {format.date(now, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-       })}
+       {format.date(now, formatOptions)}
     </Text>
 }
+
+const formatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+};
 ```
 
 ###### For a full overview of the date formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
 
 
-3. Currency Formatting Example:
+3. Currency Formatting Example (with optional options):
 
 ```tsx
 import { useI18n } from "src/i18n";
@@ -158,14 +164,19 @@ export const PriceTag = () => {
     const price = 19.99;
 
     return <Text>
-        {format.currency(price, 'USD', options)}
+        {format.currency(price, 'USD', formatOptions)}
     </Text>
 }
+
+const formatOptions = {
+    currencySign: "accounting",
+};
+
 ```
 
 ###### For a full overview of the currency formatting options, refer to [MDN: Intl / NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
 
-4. Time Formatting Example:
+4. Time Formatting Example (with optional options):
 ```tsx
 import { useI18n } from "src/i18n";
 import { Text } from "@/components";
@@ -176,13 +187,15 @@ export const CurrentTime = () => {
     const now = new Date();
 
     return <Text>
-       {format.time(now, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-       })}
+       {format.time(now, formatOptions)}
     </Text>
 }
+
+const formatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+};
 ```
 ###### For a full overview of the time formatting options, refer to [MDN: Intl / DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
 
@@ -369,8 +382,8 @@ export const { I18nProvider, useI18n } = createI18nContext({
     languages: [`en`, `es`],
     fallbackLanguage: `en`,
     commons: {
-       ok: {
-          en: `OK`,
+       accept: {
+          en: `Accept`,
           es: `Aceptar`,
        },
        cancel: {
@@ -386,10 +399,10 @@ export const { I18nProvider, useI18n } = createI18nContext({
 import { useI18n } from "src/i18n";
 import { Button } from "@/components";
 
-export const ConfirmButton = () => {
+export const AcceptButton = () => {
     const { t, commons } = useI18n();
 
-    return <Button>{t(commons.ok)}</Button>; // type-safe access
+    return <Button>{t(commons.accept)}</Button>; // type-safe access
 };
 ```
 </details>

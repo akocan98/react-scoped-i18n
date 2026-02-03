@@ -188,12 +188,14 @@ export const Apples = () => {
             {t({
                 en: `We have ${format.number(count)} apples!`,
                 es: `¡Tenemos ${format.number(count)} apples!`,
-                sl: `Imamo ${format.number(count, {
-                    minimumFractionDigits: 2,
-                })} jabolk!`,
+                sl: `Imamo ${format.number(count, formatOptions)} jabolk!`,
             })}
         </Title>
     );
+};
+
+const formatOptions = {
+  minimumFractionDigits: 2,
 };
 ```
 
@@ -202,6 +204,7 @@ Percentage example:
 ```tsx
 import { useI18n } from "src/i18n";
 import { Title } from "@/components";
+
 
 export const Progress = () => {
   const { t, format } = useI18n();
@@ -212,12 +215,15 @@ export const Progress = () => {
         <Title>
           {t({
             en: `Progress: ${format.percentage(progress)}`,
-            es: `Progreso: ${format.percentage(progress, {
-                maximumFractionDigits: 2,
-            })}`,
+            es: `Progreso: ${format.percentage(progress)}`,
+            sl: `Napredek: ${format.percentage(progress, formatOptions)}`,
           })}
         </Title>
   );
+};
+
+const formatOptions = {
+  minimumFractionDigits: 2,
 };
 ```
 
@@ -243,14 +249,16 @@ export const Today = () => {
             {t({
                 en: `Today's date is ${format.date(today)}`,
                 es: `La fecha de hoy es ${format.date(today)}`,
-                sl: `Današnji datum je ${format.date(today, {
-                    year: `numeric`,
-                    month: `long`,
-                    day: `numeric`,
-                })}`,
+                sl: `Današnji datum je ${format.date(today, formatOptions)}`,
             })}
         </Title>
     );
+};
+
+const formatOptions = {
+  year: `numeric`,
+  month: `long`,
+  day: `numeric`,
 };
 ```
 
@@ -304,13 +312,15 @@ export const CurrentTime = () => {
             {t({
                 en: `The current time is ${format.time(now)}`,
                 es: `La hora actual es ${format.time(now)}`,
-                sl: `Trenutni čas je ${format.time(now, {
-                    hour: `2-digit`,
-                    minute: `2-digit`,
-                })}`,
+                sl: `Trenutni čas je ${format.time(now, formatOptions)}`,
             })}
         </Title>
     );
+};
+
+const formatOptions = {
+  hour: `2-digit`,
+  minute: `2-digit`,
 };
 ```
 
@@ -333,8 +343,8 @@ export const { I18nProvider, useI18n } = createI18nContext({
     languages: [`en`, `es`],
     fallbackLanguage: `en`,
     commons:  {
-        ok: {
-            en: `OK`,
+        accept: {
+            en: `Accept`,
             es: `Aceptar`,
         },
         cancel: {
@@ -355,7 +365,7 @@ export const ConfirmButton = () => {
     const { t, commons } = useI18n();
 
     return <Button>
-        {t(commons.ok)}
+        {t(commons.accept)}
     </Button>;
 };
 ```
