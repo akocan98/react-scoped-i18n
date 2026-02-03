@@ -75,15 +75,11 @@ describe(`createFormat`, () => {
   });
 
   it(`percentage formatter returns a formatted value`, () => {
-    const formattedPercentage = format.percentage(0.1234);
+    const formattedPercentage1 = format.percentage(0.1234);
+    const formattedPercentage2 = format.percentage(0.1267);
 
-    expect(formattedPercentage).toBe(`12%`);
-  });
-
-  it(`percentage formatter returns a formatted value `, () => {
-    const formattedPercentage = format.percentage(0.1234);
-
-    expect(formattedPercentage).toBe(`12%`);
+    expect(formattedPercentage1).toBe(`12%`);
+    expect(formattedPercentage2).toBe(`13%`);
   });
 
   it(`percentage formatter returns a formatted value with options`, () => {
