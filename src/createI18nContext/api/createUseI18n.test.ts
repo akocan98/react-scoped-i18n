@@ -20,6 +20,7 @@ describe(`createUseI18n`, () => {
 
     try {
       useI18n();
+      // eslint-disable-next-line unused-imports/no-unused-vars
     } catch (e) {
       expect(consoleErrorSpy).toHaveBeenCalled(); // eslint-disable-line unused-imports/no-unused-vars
     }
