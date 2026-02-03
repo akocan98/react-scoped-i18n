@@ -22,7 +22,8 @@ describe(`createUseI18n`, () => {
       useI18n();
       // eslint-disable-next-line unused-imports/no-unused-vars
     } catch (e) {
-      expect(consoleErrorSpy).toHaveBeenCalled(); // eslint-disable-line unused-imports/no-unused-vars
+      // eslint-disable-line unused-imports/no-unused-vars
+      expect(consoleErrorSpy).toHaveBeenCalled();
     }
 
     consoleErrorSpy.mockRestore();
