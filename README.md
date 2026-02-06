@@ -4,6 +4,8 @@
 
 It encourages writing translations right next to the components that use them.
 
+You can use this with both <ins>React</ins> and <ins>React Native</ins> (_vanilla & Expo!_) projects. 🚀 🩵
+
 ---
 
 ## Getting started:
@@ -11,9 +13,6 @@ It encourages writing translations right next to the components that use them.
 ### [Installation & Usage](/docs/usage.md)
 
 ### [API](/docs/api.md)
-
-###### Note: You can use this with both React and React Native (+ Expo) projects. 🚀
-
 
 ---
 
