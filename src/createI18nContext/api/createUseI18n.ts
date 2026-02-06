@@ -52,7 +52,9 @@ export const createUseI18n = <
     }, [currentLanguage]);
 
     const format = useMemo(() => {
-      return createFormat({ currentLanguage });
+      return createFormat({
+        currentLanguage,
+      });
     }, [currentLanguage]);
 
     const _commons = useMemo(() => {
