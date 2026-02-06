@@ -1,5 +1,5 @@
 import { IS_DEV } from "../../env";
-import { LRUCache } from "lru-cache";
+import LRUCache from "lru-cache";
 
 export function potentiallyWarnInvalidCacheState<
   K extends Intl.NumberFormatOptions | Intl.DateTimeFormatOptions,

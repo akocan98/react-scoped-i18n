@@ -1,4 +1,4 @@
-import { LRUCache } from "lru-cache";
+import LRUCache from "lru-cache";
 import { LRU_CACHE_MAX_SIZE } from "../const";
 import { potentiallyWarnInvalidCacheState } from "../util/cache";
 
