@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akocan98/react-scoped-i18n"
+    "url": "git+https://github.com/akocan98/react-scoped-i18n.git"
   },
   "bugs": "https://github.com/akocan98/react-scoped-i18n/issues",
   "keywords": [
