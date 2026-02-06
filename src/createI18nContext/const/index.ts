@@ -1,3 +1,3 @@
 export const MISSING_TRANSLATION = `[MISSING TRANSLATION]`;
 
-export const LRU_CACHE_MAX_SIZE = 100;
+export const LRU_CACHE_MAX_SIZE = 500;
