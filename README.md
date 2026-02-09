@@ -54,7 +54,7 @@ import { Heading, Button } from "@/components";
 export const WelcomeMessage = () => {
     const { t, commons } = useI18n();
 
-    const name = "John";
+    const name = `John`;
 
     return (
         <>
@@ -83,7 +83,7 @@ export const PriceTag = () => {
     const { t, format } = useI18n();
 
     const price = 19.99;
-    const currency = "USD";
+    const currency = `USD`;
 
     return (
         <Text>
@@ -99,6 +99,8 @@ export const PriceTag = () => {
 </details>
 
 <details> <summary><strong>Pluralization example</strong></summary>
+
+You have access to all the standard ICU categories (one, two, many...) with the addition of `negative` for handling negative numbers, and you can even target specific numbers if needed.
 
 ```ts
 import { useI18n } from "@/i18n";
