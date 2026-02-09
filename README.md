@@ -1,43 +1,51 @@
 # react-scoped-i18n 🌐
 
-`react-scoped-i18n 🌐` is a **fully type-safe** i18n solution for **React**.
+A React i18n library where translations live **next to the components that render them** - no keys, no JSON files, fully type-safe.
 
-It encourages writing translations right next to the components that use them.
+Translations are written directly in your components, it's **all just code**.
 
-You can use this with both <ins>React</ins> and <ins>React Native</ins> (_vanilla & Expo!_) projects. 🚀 🩵
+Works with **React** and **React Native** (_vanilla & Expo_). 🚀 🩵
 
 ---
 
-## Getting started:
+## Getting started
 
-### [Installation & Usage](/docs/usage.md)
-
-### [API](/docs/api.md)
+- **[Installation & Usage](/docs/usage.md)** (30 second setup)
+- **[API](/docs/api.md)** (full reference)
 
 ---
 
 ## Why `react-scoped-i18n 🌐`?
 
-### Key features:
-- Very minimal setup with out-of-the-box number & date formatting
-- Fully type-safe:
-- - missing translations or unsupported languages are compile-time errors
-- - return types of `t()` are inferred from translation values
-- Utilize the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date and time formatting
-- Usage is entirely in the runtime; no build-time transforms, no new syntax is required for string interpolation or dynamic translations generated at runtime, everything is plain JS/TS
+If you’re tired of naming translation keys, jumping between JSON files, and losing typesafety, then this is for you!
 
-### The focus is on dev experience:
-- Translations are colocated with the components that use them; looking up translations in the codebase always immediately leads to the relevant component code
-- No context switching between component code and translation files when developing UI
-- No tedious naming of translation keys, as they usually provide little value
-- Ditch restrictive translation file formats (JSON, YAML); use the full power of JS/TS
-- Runs within React's context system. No additional build steps, changes can be hot-reloaded, language switches reflected immediately
+### Key features
+
+- Very minimal setup with out-of-the-box number & date formatting
+- Fully typesafe: Missing translations or unsupported languages are compile-time errors
+- Uses the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date, and time formatting
+- It's all in the runtime:
+  - No build-time transforms
+  - No custom string interpolation syntax
+  - Everything is plain JS/TS
+
+### The focus is on developer experience
+
+- Translations are colocated with the components that use them
+- Rendered text is searchable - `ctrl+f` takes you straight to the component
+- No context switching between UI code and translation files
+- No tedious naming of translation keys
+- No restrictive file formats (JSON/YAML)
+- Runs entirely within React’s context system
+- Hot-reload friendly; language switches are reflected immediately
 
 ---
 
 ## What does it look like?
 
-##### Very Basic Example:
+Instead of looking up translation keys, you write translations inline.
+
+### Very basic example
 
 ```tsx
 import { useI18n } from "@/i18n";
@@ -52,27 +60,22 @@ export const WelcomeMessage = () => {
         <>
             <Heading>
                 {t({
-                    // all fully type-safe for all configured languages
+                    // all typesafe: if you forget a configured language, it's a typescript error!
                     en: `Welcome to the website, ${name}!`,
                     es: `¡Bienvenido al sitio web, ${name}!`,
                     sl: `Dobrodošli na spletno stran, ${name}!`,
                 })}
             </Heading>
-            <Button>{
-                // "commons" object is used for commonly used, shared translations
-                t(commons.continue)
-            }</Button>
+
+            <Button>{t(commons.continue)}</Button>
         </>
     );
 };
 ```
 
-<details>
-  <summary>
-Number Formatting Basic Example:
-  </summary>
-
-```tsx
+<details> <summary><strong>Number formatting example</strong></summary>
+    
+```ts
 import { useI18n } from "@/i18n";
 import { Text } from "@/components";
 
@@ -80,7 +83,6 @@ export const PriceTag = () => {
     const { t, format } = useI18n();
 
     const price = 19.99;
-
     const currency = `USD`;
 
     return (
@@ -96,13 +98,11 @@ export const PriceTag = () => {
 ```
 </details>
 
+<details> <summary><strong>Pluralization example</strong></summary>
 
-<details>
-  <summary>
-Pluralization Basic Example:
-  </summary>
+You have access to all the standard ICU categories (one, two, many...) with the addition of `negative` for handling negative numbers, and you can even target specific numbers if needed.
 
-```tsx
+```ts
 import { useI18n } from "@/i18n";
 import { Text } from "@/components";
 
@@ -131,14 +131,16 @@ export const Apples = () => {
                 }
             })}
         </Text>
-    )
+    );
 };
 ```
 </details>
 
-----
+---
 
-`react-scoped-i18n 🌐` shines most when devs are the ones adding translations into the app, and when the number of supported languages is small-to-medium sized.
+`react-scoped-i18n 🌐` works best when translations are written and maintained in code, and when the number of supported languages is small-to-medium.
+
+If your workflow relies on external translators or platforms like Crowdin or Lokalise, this is probably not the right tool.
 
 You can find more in-depth examples in the [Installation & Usage](/docs/usage.md) and the API definitions in [API](/docs/api.md)
 
