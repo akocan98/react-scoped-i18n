@@ -43,6 +43,10 @@ If you’re tired of naming translation keys, jumping between JSON files, and lo
 
 ## What does it look like?
 
+Basically...
+
+<img width="500" height="210" alt="image" src="https://github.com/user-attachments/assets/8c7db963-7cf6-4fd1-95af-df574d0c5209" />
+
 Instead of looking up translation keys, you write translations inline.
 
 ### Very basic example
