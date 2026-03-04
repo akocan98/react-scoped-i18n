@@ -1,6 +1,6 @@
 # react-scoped-i18n 🌐
 
-A React i18n library where translations live **next to the components that render them** - no keys, no JSON files, fully type-safe.
+A React i18n library where translations live **next to the components that render them** - no keys, no JSON files, ‼️fully type-safe‼️.
 
 Translations are written directly in your components, it's **all just code**.
 
@@ -17,7 +17,15 @@ Works with **React** and **React Native** (_vanilla & Expo_). 🚀 🩵
 
 ## Why `react-scoped-i18n 🌐`?
 
-If you’re tired of naming translation keys, jumping between JSON files, and losing typesafety, then this is for you!
+Because localising your app is tedious, and the best way to speed up the process is to just write them directly in-line. 
+
+## What does it look like?
+
+Basically...
+
+<img width="500" height="210" alt="image" src="https://github.com/user-attachments/assets/8c7db963-7cf6-4fd1-95af-df574d0c5209" />
+
+Instead of looking up translation keys, you write translations inline.
 
 ### Key features
 
@@ -40,14 +48,6 @@ If you’re tired of naming translation keys, jumping between JSON files, and lo
 - Hot-reload friendly; language switches are reflected immediately
 
 ---
-
-## What does it look like?
-
-Basically...
-
-<img width="500" height="210" alt="image" src="https://github.com/user-attachments/assets/8c7db963-7cf6-4fd1-95af-df574d0c5209" />
-
-Instead of looking up translation keys, you write translations inline.
 
 ### Very basic example
 
