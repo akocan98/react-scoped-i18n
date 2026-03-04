@@ -1,115 +1,114 @@
 # react-scoped-i18n 🌐
 
-A React i18n library where translations live **next to the components that render them** - no keys, no JSON files, ‼️fully type-safe‼️.
+A React i18n library where **translations live next to the components that render them** - no keys, no JSON files, fully type-safe at compile time.
 
-Translations are written directly in your components, it's **all just code**.
+Works with **React** and **React Native** (_vanilla & Expo_).
 
-Works with **React** and **React Native** (_vanilla & Expo_). 🚀 🩵
+---
+
+## The problem with key-based i18n
+
+Every other i18n library makes you name things. You write a key in your component, then jump to a JSON file to write the actual string, then come back. Keys get stale. Typos go unnoticed until runtime. Your translation file becomes a graveyard of strings you're not sure are still used.
+
+`react-scoped-i18n` flips this: **translations are just code, written inline, where you need them.**
+
+```tsx
+const { t } = useI18n();
+
+const name = `Oto`;
+
+return <Heading>
+  {t({
+    en: `Welcome back, ${name}!`,
+    es: `¡Bienvenido de nuevo, ${name}!`,
+  })}
+</Heading>;
+```
+
+No keys. No files. `ctrl+f` on any rendered string takes you straight to the component.
+
+---
+
+## Type safety that actually catches bugs
+
+Forget to add a translation for a language you support? **TypeScript error.** Reference an unsupported language? **TypeScript error.** At compile time, not in production.
+
+```tsx
+return <Heading>
+  {t({
+    en: `Welcome back, ${name}!`,
+    // TS Error: Property 'es' is missing - your app supports Spanish
+  })}
+</Heading>;
+```
 
 ---
 
 ## Getting started
 
-- **[Installation & Usage](/docs/usage.md)** (30 second setup)
-- **[API](/docs/api.md)** (full reference)
+- **[Installation & Usage](/docs/usage.md)** - 30 second setup
+- **[API Reference](/docs/api.md)** - full reference
 
 ---
 
-## Why `react-scoped-i18n 🌐`?
+## Key features
 
-Because localising your app is tedious, and the best way to speed up the process is to just write them directly in-line. 
-
-## What does it look like?
-
-Basically...
-
-<img width="500" height="210" alt="image" src="https://github.com/user-attachments/assets/8c7db963-7cf6-4fd1-95af-df574d0c5209" />
-
-Instead of looking up translation keys, you write translations inline.
-
-### Key features
-
-- Very minimal setup with out-of-the-box number & date formatting
-- Fully typesafe: Missing translations or unsupported languages are compile-time errors
-- Uses the widely supported [Internationalization API (Intl)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for number, currency, date, and time formatting
-- It's all in the runtime:
-  - No build-time transforms
-  - No custom string interpolation syntax
-  - Everything is plain JS/TS
-
-### The focus is on developer experience
-
-- Translations are colocated with the components that use them
-- Rendered text is searchable - `ctrl+f` takes you straight to the component
-- No context switching between UI code and translation files
-- No tedious naming of translation keys
-- No restrictive file formats (JSON/YAML)
-- Runs entirely within React’s context system
-- Hot-reload friendly; language switches are reflected immediately
+- **Colocated translations** - live in the component, not a separate file
+- **Compile-time safety** - missing or unsupported languages are TypeScript errors
+- **No build-time transforms** - no Babel plugins, no magic, lives in React runtime (React Context) 
+- **No custom syntax** - plain JS template literals, no `{count, plural, ...}` to memorise
+- **Out-of-the-box formatting** - numbers, currencies, dates and times via the native [Intl API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+- **Hot-reload friendly** - language switches are reflected immediately
+- **Minimal setup** - takes 30 seconds
 
 ---
 
-### Very basic example
+## Examples
+
+### Interpolation
 
 ```tsx
-import { useI18n } from "@/i18n";
-import { Heading, Button } from "@/components";
-
 export const WelcomeMessage = () => {
-    const { t, commons } = useI18n();
-
+    const { t } = useI18n();
     const name = `John`;
 
     return (
-        <>
-            <Heading>
-                {t({
-                    // all typesafe: if you forget a configured language, it's a typescript error!
-                    en: `Welcome to the website, ${name}!`,
-                    es: `¡Bienvenido al sitio web, ${name}!`,
-                    sl: `Dobrodošli na spletno stran, ${name}!`,
-                })}
-            </Heading>
-
-            <Button>{t(commons.continue)}</Button>
-        </>
+        <Heading>
+            {t({
+                en: `Welcome to the website, ${name}!`,
+                es: `¡Bienvenido al sitio web, ${name}!`,
+                sl: `Dobrodošli na spletno stran, ${name}!`,
+            })}
+        </Heading>
     );
 };
 ```
 
-<details> <summary><strong>Number formatting example</strong></summary>
-    
-```ts
-import { useI18n } from "@/i18n";
-import { Text } from "@/components";
+### Number & currency formatting
 
+```tsx
 export const PriceTag = () => {
     const { t, format } = useI18n();
 
     const price = 19.99;
-    const currency = `USD`;
 
     return (
         <Text>
             {t({
-                en: `The price is ${format.currency(price, currency)}.`,
-                es: `El precio es ${format.currency(price, currency)}.`,
-                sl: `Cena je ${format.currency(price, currency)}.`,
+                en: `The price is ${format.currency(price, "USD")}.`,
+                es: `El precio es ${format.currency(price, "USD")}.`,
+                sl: `Cena je ${format.currency(price, "USD")}.`,
             })}
         </Text>
     );
 };
 ```
-</details>
 
-<details> <summary><strong>Pluralization example</strong></summary>
+### Pluralization
 
-You have access to all the standard ICU categories (one, two, many...) with the addition of `negative` for handling negative numbers, and you can even target specific numbers if needed.
+Full ICU category support (`one`, `two`, `many`, etc.), including a `negative` shorthand and the ability to target specific numbers.
 
-```ts
-import { useI18n } from "@/i18n";
-import { Text } from "@/components";
-
+```tsx
 export const Apples = () => {
     const { tPlural } = useI18n();
 
@@ -122,7 +121,7 @@ export const Apples = () => {
                     negative: `You are in apple debt...`,
                     one: `You have one apple.`,
                     many: `You have ${count} apples.`,
-                    42: `You have the perfect number of apples!`, // ‼️ you can target specific numbers
+                    42: `You have the perfect number of apples!`,
                 },
                 es: {
                     one: `Tienes una manzana.`,
@@ -130,23 +129,35 @@ export const Apples = () => {
                 },
                 sl: {
                     one: `Imaš eno jabolko.`,
-                    two: `Imaš dve jabolki.`, // ‼️ handling dual form in Slovenian that English and Spanish don't have
+                    two: `Imaš dve jabolki.`, // handling the Slovenian dual form
                     many: `Imaš ${count} jabolk.`,
-                }
+                },
             })}
         </Text>
     );
 };
 ```
-</details>
+
+### Shared / common translations
+
+```tsx
+const { t, commons } = useI18n();
+
+return <Button>{t(commons.continue)}</Button>;
+```
 
 ---
 
-`react-scoped-i18n 🌐` works best when translations are written and maintained in code, and when the number of supported languages is small-to-medium.
+## Who this is for
 
-If your workflow relies on external translators or platforms like Crowdin or Lokalise, this is probably not the right tool.
+`react-scoped-i18n` is built for **small teams and indie developers** who:
 
-You can find more in-depth examples in the [Installation & Usage](/docs/usage.md) and the API definitions in [API](/docs/api.md)
+- Write and maintain their own translations (or work directly with translators in code)
+- Support a small-to-medium number of languages
+- Want TypeScript to enforce correctness, not just assist with autocomplete
+- Prefer reading code over managing JSON files
+
+If your workflow involves external translation platforms like Crowdin or Lokalise (or third party translators touching files directly), this approach is likely not for you.
 
 ---
 
