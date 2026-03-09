@@ -68,40 +68,37 @@ return <Heading>
 ### Interpolation
 
 ```tsx
-export const WelcomeMessage = () => {
-    const { t } = useI18n();
-    const name = `John`;
+const { t } = useI18n();
 
-    return (
-        <Heading>
-            {t({
-                en: `Welcome to the website, ${name}!`,
-                es: `¡Bienvenido al sitio web, ${name}!`,
-                sl: `Dobrodošli na spletno stran, ${name}!`,
-            })}
-        </Heading>
-    );
-};
+const name = `Oto`;
+
+return (
+    <Heading>
+        {t({
+            en: `Welcome to the website, ${name}!`,
+            es: `¡Bienvenido al sitio web, ${name}!`,
+            sl: `Dobrodošli na spletno stran, ${name}!`,
+        })}
+    </Heading>
+);
 ```
 
 ### Number & currency formatting
 
 ```tsx
-export const PriceTag = () => {
-    const { t, format } = useI18n();
+const { t, format } = useI18n();
 
-    const price = 19.99;
+const price = 19.99;
 
-    return (
-        <Text>
-            {t({
-                en: `The price is ${format.currency(price, "USD")}.`,
-                es: `El precio es ${format.currency(price, "USD")}.`,
-                sl: `Cena je ${format.currency(price, "USD")}.`,
-            })}
-        </Text>
-    );
-};
+return (
+    <Text>
+        {t({
+            en: `The price is ${format.currency(price, "USD")}.`,
+            es: `El precio es ${format.currency(price, "USD")}.`,
+            sl: `Cena je ${format.currency(price, "USD")}.`,
+        })}
+    </Text>
+);
 ```
 
 ### Pluralization
@@ -109,33 +106,31 @@ export const PriceTag = () => {
 Full ICU category support (`one`, `two`, `many`, etc.), including a `negative` shorthand and the ability to target specific numbers.
 
 ```tsx
-export const Apples = () => {
-    const { tPlural } = useI18n();
+const { tPlural } = useI18n();
 
-    const count = 12;
+const count = 12;
 
-    return (
-        <Text>
-            {tPlural(count, {
-                en: {
-                    negative: `You are in apple debt...`,
-                    one: `You have one apple.`,
-                    many: `You have ${count} apples.`,
-                    42: `You have the perfect number of apples!`,
-                },
-                es: {
-                    one: `Tienes una manzana.`,
-                    many: `Tienes ${count} manzanas.`,
-                },
-                sl: {
-                    one: `Imaš eno jabolko.`,
-                    two: `Imaš dve jabolki.`, // handling the Slovenian dual form
-                    many: `Imaš ${count} jabolk.`,
-                },
-            })}
-        </Text>
-    );
-};
+return (
+    <Text>
+        {tPlural(count, {
+            en: {
+                negative: `You are in apple debt...`,
+                one: `You have one apple.`,
+                many: `You have ${count} apples.`,
+                42: `You have the perfect number of apples!`,
+            },
+            es: {
+                one: `Tienes una manzana.`,
+                many: `Tienes ${count} manzanas.`,
+            },
+            sl: {
+                one: `Imaš eno jabolko.`,
+                two: `Imaš dve jabolki.`, // handling the Slovenian dual form
+                many: `Imaš ${count} jabolk.`,
+            },
+        })}
+    </Text>
+);
 ```
 
 ### Shared / common translations
